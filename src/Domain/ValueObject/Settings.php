@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PayWire\Gateway\PayU\Domain;
+namespace PayWire\Gateway\PayU\Domain\ValueObject;
 
+use PayWire\Gateway\PayU\Domain\OrderCreateRequestExtension;
 use Webmozart\Assert\Assert;
 
-final readonly class Settings implements \JsonSerializable
+final readonly class Settings implements OrderCreateRequestExtension
 {
     /**
      * @param array<string, list<int>>|null $cardInstallmentsOptions
@@ -25,6 +26,11 @@ final readonly class Settings implements \JsonSerializable
         if (null !== $this->enrichNotificationWith) {
             Assert::allString($this->enrichNotificationWith);
         }
+    }
+
+    public function key(): string
+    {
+        return 'settings';
     }
 
     /** @return array<int|string, mixed> */
