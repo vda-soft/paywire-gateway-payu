@@ -28,20 +28,18 @@ final readonly class Settings implements OrderCreateRequestExtension
         }
     }
 
-    public function key(): string
-    {
-        return 'settings';
-    }
-
     /** @return array<int|string, mixed> */
     public function jsonSerialize(): array
     {
-        $data = [
-            'cardInstallmentsOptions' => $this->cardInstallmentsOptions,
-            'syncProcessing' => $this->syncProcessing,
-            'enrichNotificationWith' => $this->enrichNotificationWith,
-        ];
+        $data = \array_filter(
+            [
+                'cardInstallmentsOptions' => $this->cardInstallmentsOptions,
+                'syncProcessing' => $this->syncProcessing,
+                'enrichNotificationWith' => $this->enrichNotificationWith,
+            ],
+            static fn(mixed $v): bool => null !== $v
+        );
 
-        return \array_filter($data, static fn(mixed $v): bool => null !== $v);
+        return [] === $data ? [] : ['settings' => $data];
     }
 }

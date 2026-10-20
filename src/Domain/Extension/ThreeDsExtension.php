@@ -19,11 +19,6 @@ final readonly class ThreeDsExtension implements OrderCreateRequestExtension
         Assert::nullOrMaxLength($this->deviceFingerprint, 255);
     }
 
-    public function key(): string
-    {
-        return 'three_ds';
-    }
-
     /** @return array<string, mixed> */
     public function jsonSerialize(): array
     {

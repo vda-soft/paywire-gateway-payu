@@ -16,7 +16,6 @@ final class SettingsTest extends TestCase
         $settings = new Settings();
 
         self::assertInstanceOf(OrderCreateRequestExtension::class, $settings);
-        self::assertSame('settings', $settings->key());
     }
 
     public function testJsonSerializeOmitsNullFields(): void
@@ -34,12 +33,21 @@ final class SettingsTest extends TestCase
 
         self::assertSame(
             [
-                'cardInstallmentsOptions' => ['mbk' => [1, 5, 12]],
-                'syncProcessing' => true,
-                'enrichNotificationWith' => ['invoice'],
+                'settings' => [
+                    'cardInstallmentsOptions' => ['mbk' => [1, 5, 12]],
+                    'syncProcessing' => true,
+                    'enrichNotificationWith' => ['invoice'],
+                ],
             ],
             $settings->jsonSerialize()
         );
+    }
+
+    public function testJsonSerializeWrapsOnlySetFields(): void
+    {
+        $settings = new Settings(syncProcessing: false);
+
+        self::assertSame(['settings' => ['syncProcessing' => false]], $settings->jsonSerialize());
     }
 
     public function testInvalidProviderKeyThrows(): void

@@ -20,7 +20,6 @@ final class ThreeDsExtensionTest extends TestCase
         $extension = new ThreeDsExtension();
 
         self::assertInstanceOf(OrderCreateRequestExtension::class, $extension);
-        self::assertSame('three_ds', $extension->key());
     }
 
     public function testJsonSerializeOmitsNullFields(): void
